@@ -3,7 +3,7 @@ from lightweight_charts import Chart
 
 def plot_chart(df: pd.DataFrame = None, ticker: str = "AAPL") -> None:
     
-    df["time"] = pd.to_datetime(df["time"])
+    df["time"] = df["time"].dt.strftime('%Y-%m-%d')
 
     chart = Chart(inner_width=1, inner_height=0.55)
     chart.time_scale(visible=False)  
@@ -44,10 +44,9 @@ def plot_chart(df: pd.DataFrame = None, ticker: str = "AAPL") -> None:
     macd_histogram.set(df[["time","MACDh_12_26_9"]].dropna())
 
     # --- referencia 0 para MACD como serie constante ---
-    t0, t1 = df["time"].iloc[0], df["time"].iloc[-1]
-
+    df["MACD 0"] = 0
     macd0 = macd_chart.create_line("MACD 0", color="white", width=1, style="dotted")
-    macd0.set(pd.DataFrame({"time": [t0, t1], "MACD 0": [0, 0]}))
+    macd0.set(df[["time", "MACD 0"]])
 
     # --- RSI subpanel ---
     rsi_chart = chart.create_subchart(width=1, height=0.20, sync=True)
@@ -58,13 +57,14 @@ def plot_chart(df: pd.DataFrame = None, ticker: str = "AAPL") -> None:
     rsi.set(df[["time","RSI_14"]].dropna())
 
     # --- referencias 70/30 como series constantes ---
-    t0, t1 = df["time"].iloc[0], df["time"].iloc[-1]
+    df["RSI 70"] = 70
+    df["RSI 30"] = 30
 
     rsi70 = rsi_chart.create_line("RSI 70", color="white", width=1, style="dotted")
-    rsi70.set(pd.DataFrame({"time": [t0, t1], "RSI 70": [70, 70]}))
+    rsi70.set(df[["time", "RSI 70"]])
 
     rsi30 = rsi_chart.create_line("RSI 30", color="white", width=1, style="dotted")
-    rsi30.set(pd.DataFrame({"time": [t0, t1], "RSI 30": [30, 30]}))
+    rsi30.set(df[["time", "RSI 30"]])
 
     
     
