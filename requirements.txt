@@ -1,0 +1,6 @@
+numpy
+pandas
+pandas_ta
+yfinance
+lightweight-charts
+youtube-transcript-api
