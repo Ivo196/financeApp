@@ -23,10 +23,6 @@ def plot_chart(df: pd.DataFrame = None, ticker: str = "AAPL") -> None:
     ema200 = chart.create_line("EMA_200", color="red")
     ema200.set(df[["time", "EMA_200"]].dropna())
 
-    
-
-    
-
     # --- MACD subpanel ---
     macd_chart = chart.create_subchart(width=1, height=0.25, sync=True)
     macd_chart.legend(True)
